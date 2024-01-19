@@ -1,0 +1,12 @@
+{
+  "project": {
+    "description": "Building Haskell libraries across many GHC versions.",
+    "name": "flaky-haskell",
+    "repo": "sellout/flaky-haskell",
+    "summary": "Building Haskell libraries across many GHC versions",
+    "version": "0.1.0"
+  },
+  "type": {
+    "name": "nix"
+  }
+}
