@@ -34,7 +34,7 @@ in {
   #
   # This function takes a (final: ghc: AttrSet of Haskell packages) and returns
   # a Haskell overlay.
-  haskellOverlay = packages: final: prev: hfinal: hprev: packages final hfinal;
+  haskellOverlay = packages: final: prev: hfinal: hprev: packages final;
 
   # Produces a devShell for each supported GHC version.
   # `nativeBuildInputs` is a function from a Haskell package set for a
@@ -50,7 +50,7 @@ in {
         value =
           bash-strict-mode.lib.drv pkgs
           (hpkgs.shellFor {
-            packages = _: builtins.attrValues (packages pkgs hpkgs);
+            packages = _: builtins.attrValues (packages pkgs);
             nativeBuildInputs = nativeBuildInputs hpkgs;
             withHoogle = false;
           });
@@ -69,7 +69,7 @@ in {
       (ghcVer: let
         hpkgs = pkgs.haskell.packages.${ghcVer};
 
-        ghcPackages = packages pkgs hpkgs;
+        ghcPackages = packages pkgs;
 
         individualPackages =
           nixpkgs.lib.concatMapAttrs
@@ -111,11 +111,14 @@ in {
       };
   };
 
-  cabalProject2nix = cabalProject: pkgs: hpkgs: overrides:
+  cabalProject2nix = cabalProject: pkgs: overrides:
     builtins.mapAttrs
     (name: path:
       bash-strict-mode.lib.shellchecked pkgs
-      ((hpkgs.callCabal2nix name "${builtins.dirOf cabalProject}/${path}" {})
+      ((pkgs.haskellPackages.callCabal2nix
+          name
+          "${builtins.dirOf cabalProject}/${path}"
+          {})
         .overrideAttrs
         overrides))
     (parseCabalProject cabalProject);
