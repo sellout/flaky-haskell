@@ -19,10 +19,11 @@
     flaky,
     nixpkgs,
     self,
+    systems,
   }: let
     pname = "flaky-haskell";
 
-    supportedSystems = flaky.lib.defaultSystems;
+    supportedSystems = import systems;
   in
     {
       schemas = {
@@ -46,7 +47,7 @@
       src = pkgs.lib.cleanSource ./.;
     in {
       projectConfigurations =
-        flaky.lib.projectConfigurations.default {inherit pkgs self;};
+        flaky.lib.projectConfigurations.nix {inherit pkgs self;};
 
       devShells =
         self.projectConfigurations.${system}.devShells
@@ -63,5 +64,6 @@
     bash-strict-mode.follows = "flaky/bash-strict-mode";
     flake-utils.follows = "flaky/flake-utils";
     nixpkgs.follows = "flaky/nixpkgs";
+    systems.follows = "flaky/systems";
   };
 }

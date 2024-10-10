@@ -1,6 +1,6 @@
 # Flaky Haskell
 
-[![built with garnix](https://img.shields.io/endpoint?url=https%3A%2F%2Fgarnix.io%2Fapi%2Fbadges%2Fsellout%2Fflaky-haskell)](https://garnix.io)
+[![built with garnix](https://img.shields.io/endpoint?url=https%3A%2F%2Fgarnix.io%2Fapi%2Fbadges%2Fsellout%2Fflaky-haskell)](https://garnix.io/repo/sellout/flaky-haskell)
 
 Building Haskell libraries across many GHC versions
 
