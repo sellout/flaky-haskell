@@ -1,7 +1,4 @@
-{
-  bash-strict-mode,
-  nixpkgs,
-}: let
+{lib}: let
   # Reads the set of local packages from a cabal.project provided at the call
   # site.
   #
@@ -9,7 +6,7 @@
   # Related discussion at NixOS/cabal2nix#286
   parseCabalProject = cabalProject: let
     content = builtins.readFile cabalProject;
-    lines = nixpkgs.lib.splitString "\n" content;
+    lines = lib.splitString "\n" content;
     matches =
       builtins.map (builtins.match "^[[:space:]]*([.].*)/(.*)[.]cabal$") lines;
   in
@@ -47,13 +44,11 @@ in {
         hpkgs = pkgs.haskell.packages.${ghcVer};
       in {
         name = ghcVer;
-        value =
-          bash-strict-mode.lib.drv pkgs
-          (hpkgs.shellFor {
-            packages = _: builtins.attrValues (packages pkgs hpkgs);
-            nativeBuildInputs = nativeBuildInputs hpkgs;
-            withHoogle = false;
-          });
+        value = pkgs.checkedDrv (hpkgs.shellFor {
+          packages = _: builtins.attrValues (packages pkgs hpkgs);
+          nativeBuildInputs = nativeBuildInputs hpkgs;
+          withHoogle = false;
+        });
       })
       ghcVersions);
 
@@ -62,7 +57,7 @@ in {
   # <ghcVer>_<package> = A package with only the one Cabal package
   # <ghcVer>_all = A package containing GHC will all Cabal packages installed
   mkPackages = pkgs: ghcVersions: packages:
-    nixpkgs.lib.foldr
+    lib.foldr
     (a: b: a // b)
     {}
     (builtins.map
@@ -72,7 +67,7 @@ in {
         ghcPackages = packages pkgs hpkgs;
 
         individualPackages =
-          nixpkgs.lib.concatMapAttrs
+          lib.concatMapAttrs
           (name: value: {"${ghcVer}_${name}" = value;})
           ghcPackages;
       in
@@ -114,7 +109,7 @@ in {
   cabalProject2nix = cabalProject: pkgs: hpkgs: overrides:
     builtins.mapAttrs
     (name: path:
-      bash-strict-mode.lib.shellchecked pkgs
+      pkgs.checkedDrv
       ((hpkgs.callCabal2nix name "${builtins.dirOf cabalProject}/${path}" {})
         .overrideAttrs
         overrides))
