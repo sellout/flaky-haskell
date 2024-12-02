@@ -1,11 +1,10 @@
 {
-  "project": {
-    "description": "Building Haskell libraries across many GHC versions.",
-    "name": "flaky-haskell",
-    "repo": "sellout/flaky-haskell",
-    "summary": "Building Haskell libraries across many GHC versions",
-  },
-  "type": {
-    "name": "nix"
-  }
+  "project":
+    {
+      "description": "Building Haskell libraries across many GHC versions.",
+      "name": "flaky-haskell",
+      "repo": "sellout/flaky-haskell",
+      "summary": "Building Haskell libraries across many GHC versions",
+    },
+  "type": { "name": "nix" },
 }

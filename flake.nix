@@ -14,7 +14,6 @@
   };
 
   outputs = {
-    bash-strict-mode,
     flake-utils,
     flaky,
     nixpkgs,
@@ -36,12 +35,12 @@
           ;
       };
 
-      lib = import ./nix/lib.nix {inherit bash-strict-mode nixpkgs;};
+      lib = import ./nix/lib.nix {inherit (nixpkgs) lib;};
     }
     // flake-utils.lib.eachSystem supportedSystems (system: let
       pkgs = import nixpkgs {
         inherit system;
-        overlays = [flaky.overlays.dependencies];
+        overlays = [flaky.overlays.default];
       };
 
       src = pkgs.lib.cleanSource ./.;
@@ -61,7 +60,6 @@
     ## Flaky should generally be the source of truth for its inputs.
     flaky.url = "github:sellout/flaky";
 
-    bash-strict-mode.follows = "flaky/bash-strict-mode";
     flake-utils.follows = "flaky/flake-utils";
     nixpkgs.follows = "flaky/nixpkgs";
     systems.follows = "flaky/systems";
