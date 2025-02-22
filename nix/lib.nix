@@ -109,9 +109,11 @@ in {
   cabalProject2nix = cabalProject: pkgs: hpkgs: overrides:
     builtins.mapAttrs
     (name: path:
-      pkgs.checkedDrv
-      ((hpkgs.callCabal2nix name "${builtins.dirOf cabalProject}/${path}" {})
-        .overrideAttrs
-        overrides))
+      ## FIXME: This is failing on some downstream packages when we use
+      ##       `checkedDrv` (which adds `-u`, among other things).
+        pkgs.shellchecked
+        ((hpkgs.callCabal2nix name "${builtins.dirOf cabalProject}/${path}" {})
+          .overrideAttrs
+          overrides))
     (parseCabalProject cabalProject);
 }
