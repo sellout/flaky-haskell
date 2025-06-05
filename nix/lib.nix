@@ -114,6 +114,6 @@ in {
         pkgs.shellchecked
         ((hpkgs.callCabal2nix name "${builtins.dirOf cabalProject}/${path}" {})
           .overrideAttrs
-          overrides))
+        overrides))
     (parseCabalProject cabalProject);
 }
