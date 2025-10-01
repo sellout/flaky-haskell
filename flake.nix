@@ -2,6 +2,9 @@
   description = "Building Haskell libraries across many GHC versions";
 
   nixConfig = {
+    ## TODO: This is needed because of the `exe` hack to turn some derivations
+    ##       into fixed-outputs. Will need to change that upstream.
+    allow-import-from-derivation = true;
     ## https://github.com/NixOS/rfcs/blob/master/rfcs/0045-deprecate-url-syntax.md
     extra-experimental-features = ["no-url-literals"];
     extra-substituters = ["https://cache.garnix.io"];
