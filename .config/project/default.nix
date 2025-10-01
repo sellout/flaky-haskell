@@ -26,7 +26,15 @@
   editorconfig.enable = true;
   programs = {
     treefmt.enable = true;
-    vale.enable = true;
+    vale = {
+      enable = true;
+      vocab.${config.project.name}.accept = [
+        ## I don’t know why the `formatter` entry from Flaky isn’t good enough.
+        ## Normally plurals are handled automatically. But this gets caught
+        ## here.
+        "formatters"
+      ];
+    };
   };
 
   ## CI
