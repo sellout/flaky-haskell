@@ -4,3 +4,4 @@ garnix
 [Nn]ix
 Pfeil
 ShellCheck
+formatters
