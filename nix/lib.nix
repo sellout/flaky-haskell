@@ -112,7 +112,7 @@ in {
       ## FIXME: This is failing on some downstream packages when we use
       ##       `checkedDrv` (which adds `-u`, among other things).
         pkgs.shellchecked
-        ((hpkgs.callCabal2nix name "${builtins.dirOf cabalProject}/${path}" {})
+        ((hpkgs.callCabal2nix name (builtins.dirOf cabalProject + "/${path}") {})
           .overrideAttrs
         overrides))
     (parseCabalProject cabalProject);
