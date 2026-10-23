@@ -17,4 +17,6 @@ Other projects similar to this one, and how they differ.
 
 ### [haskell.nix](https://input-output-hk.github.io/haskell.nix/)
 
-I unfortunately don’t know much about it. Hopefully someone will convince me that it’s just better than this in every way, and I can abandon this project.
+This is an entirely different approach to Haskell Nix infrastructure. In my opinion, it’s extremely overcomplicated and fragile.
+
+Flaky Haskell implements a small fraction of this – basically just extracting Nix from cabal.project. Which, if haskell.nix was more modular, I might be able to just depend on instead.
