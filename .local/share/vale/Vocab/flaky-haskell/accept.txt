@@ -1,0 +1,6 @@
+direnv
+formatter
+[Nn]ix
+Pfeil
+ShellCheck
+formatters
